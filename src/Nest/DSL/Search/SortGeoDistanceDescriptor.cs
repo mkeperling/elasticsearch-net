@@ -18,6 +18,7 @@ namespace Nest
 		PropertyPathMarker Field { get; set; }
 		string PinLocation { get; set; }
 		GeoUnit? GeoUnit { get; set; }
+		ScoreMode? Mode { get; set; }
 	}
 
 	public class GeoDistanceSort : IGeoDistanceSort
@@ -27,6 +28,7 @@ namespace Nest
 		public PropertyPathMarker Field { get; set; }
 		public string PinLocation { get; set; }
 		public GeoUnit? GeoUnit { get; set; }
+		public ScoreMode? Mode { get; set; }
 		
 		object ICustomJson.GetCustomJson()
 		{
@@ -35,7 +37,8 @@ namespace Nest
 				{ this.Field, this.PinLocation },
 				{ "missing", this.Missing },
 				{ "order", this.Order },
-				{ "unit", this.GeoUnit }
+				{ "unit", this.GeoUnit },
+				{ "mode", this.Mode }
 			};
 		}
 	}
@@ -53,6 +56,8 @@ namespace Nest
 		string IGeoDistanceSort.PinLocation { get; set; }
 
 		GeoUnit? IGeoDistanceSort.GeoUnit { get; set; }
+		
+		ScoreMode? IGeoDistanceSort.Mode { get; set; }
 	
 		public SortGeoDistanceDescriptor<T> PinTo(string geoLocationHash)
 		{
@@ -72,6 +77,13 @@ namespace Nest
 		{
 			unit.ThrowIfNull("unit");
 			Self.GeoUnit = unit;
+			return this;
+		}
+
+		public SortGeoDistanceDescriptor<T> Mode(ScoreMode mode)
+		{
+			mode.ThrowIfNull("mode");
+			Self.Mode = mode;
 			return this;
 		}
 
@@ -125,7 +137,8 @@ namespace Nest
 				{ Self.Field, Self.PinLocation },
 				{ "missing", Self.Missing },
 				{ "order", Self.Order },
-				{ "unit", Self.GeoUnit }
+				{ "unit", Self.GeoUnit },
+				{ "mode", Self.Mode }
 			};
 		}
 	}

@@ -175,6 +175,7 @@ namespace Nest.Tests.Unit.Search.Sorting
 					.Descending()
 					.PinTo(40, -70)
 					.Unit(GeoUnit.Kilometers)
+                    .Mode(ScoreMode.Min)
 				);
 			var json = TestElasticClient.Serialize(s);
 			var expected = @"
@@ -186,7 +187,8 @@ namespace Nest.Tests.Unit.Search.Sorting
                       ""origin"": ""40, -70"",
                       missing: ""_last"",
                       order: ""desc"",
-                      unit: ""km""
+                      unit: ""km"",
+					  mode: ""min""
                     }
                   }
                 }";
